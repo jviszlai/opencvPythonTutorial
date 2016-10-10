@@ -18,6 +18,9 @@ while(True):
     mask1 = cv2.inRange(hsv, lowerRed1, upperRed1)
     mask2 = cv2.inRange(hsv, lowerRed2, upperRed2)
     mask = mask1 + mask2
+    #Erode and dilate the image to minimize small errors
+    mask = cv2.erode(mask, None, iterations=2)
+    mask = cv2.dilate(mask, None, iterations=2)
     #Display before and after frames side by side
     cv2.imshow('before', frame)
     cv2.imshow('after', mask)
