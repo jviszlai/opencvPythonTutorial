@@ -21,6 +21,10 @@ while(True):
     #Erode and dilate the image to minimize small errors
     mask = cv2.erode(mask, None, iterations=2)
     mask = cv2.dilate(mask, None, iterations=2)
+    #Sort out all the different shapes that are in the range, and color them red
+    mask, contours, hierarchy = cv2.findContours(mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    #Display all contours
+    cv2.drawContours(mask, contours, -1, (180,200,200), 3)
     #Display before and after frames side by side
     cv2.imshow('before', frame)
     cv2.imshow('after', mask)
