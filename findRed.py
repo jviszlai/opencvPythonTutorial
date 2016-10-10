@@ -36,9 +36,11 @@ while(True):
             cv2.drawContours(mask, [c], -1, 0, -1)
 
     cv2.drawContours(mask, [biggestContour], 0, (180,200,200), 3)
+    #Combine the mask with original frame to only show desired object
+    res = cv2.bitwise_and(frame,frame, mask= mask)
     #Display before and after frames side by side
     cv2.imshow('before', frame)
-    cv2.imshow('after', mask)
+    cv2.imshow('after', res)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
