@@ -23,8 +23,19 @@ while(True):
     mask = cv2.dilate(mask, None, iterations=2)
     #Sort out all the different shapes that are in the range, and color them red
     mask, contours, hierarchy = cv2.findContours(mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-    #Display all contours
-    cv2.drawContours(mask, contours, -1, (180,200,200), 3)
+    #find biggest area
+    biggestArea = 0
+    biggestContour = None
+    for c in contours:
+        if cv2.contourArea(c) > biggestArea:
+            biggestArea = cv2.contourArea(c)
+            biggestContour = c
+    #Removes all other contours and keeps biggest contour
+    for c in contours:
+        if c is not biggestContour:
+            cv2.drawContours(mask, [c], -1, 0, -1)
+
+    cv2.drawContours(mask, [biggestContour], 0, (180,200,200), 3)
     #Display before and after frames side by side
     cv2.imshow('before', frame)
     cv2.imshow('after', mask)
