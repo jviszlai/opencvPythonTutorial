@@ -8,9 +8,19 @@ while(True):
     ret, frame = cap.read()
     #convert to HSV colorspace
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    #Define range of colors to be selected
+    lowerRed1 = np.array([170, 175, 0])
+    upperRed1 = np.array([180, 255, 100])
+
+    lowerRed2 = np.array([0, 175, 0])
+    upperRed2 = np.array([10, 255, 100])
+    #Filter the frame to only keep colors in the range
+    mask1 = cv2.inRange(hsv, lowerRed1, upperRed1)
+    mask2 = cv2.inRange(hsv, lowerRed2, upperRed2)
+    mask = mask1 + mask2
     #Display before and after frames side by side
     cv2.imshow('before', frame)
-    cv2.imshow('after', hsv)
+    cv2.imshow('after', mask)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
